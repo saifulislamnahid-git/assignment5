@@ -5,7 +5,7 @@ const mealsElement = document.getElementById('mealsElement');
 const singleElement = document.getElementById("singleElement");
 
 // Submit Button Event Handler
-submit.addEventListener('click', function () {
+submit.addEventListener('click', function() {
     const searchFor = document.getElementById('searchFor');
     const inputValue = input.value;
     if (inputValue == '') {
@@ -41,7 +41,7 @@ const displayMeals = mealsItem => {
             </div>
 
         `)
-        .join('')
+            .join('')
     }
     input.value = '';
 }
@@ -51,11 +51,11 @@ mealsElement.addEventListener('click', e => {
     const mealInfo = e.path.find(item => {
         if (item.classList) {
             return item.classList.contains('meal-info');
-        }else{
+        } else {
             return false;
         }
     })
-    
+
     if (mealInfo) {
         const mealID = mealInfo.getAttribute('data-mealID');
         getMealByID(mealID);
@@ -66,20 +66,20 @@ mealsElement.addEventListener('click', e => {
 // Fetch Meal By ID
 function getMealByID(mealID) {
     fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${mealID}`)
-    .then(res => res.json())
-    .then(data => {
-        const meal = data.meals[0];
-        addMealToDOM(meal);
-    })
+        .then(res => res.json())
+        .then(data => {
+            const meal = data.meals[0];
+            addMealToDOM(meal);
+        })
 }
 
 // Add meal to DOM
 const addMealToDOM = meal => {
-    const ingredients = [];
-    for(let i = 1; i<= 20; i++){
-        if (meal[`strIngredient${i}`]) {
-            ingredients.push(`${meal[`strIngredient${i}`]}`)
-        }else{
+        const ingredients = [];
+        for (let i = 1; i <= 20; i++) {
+            if (meal[`strIngredient${i}`]) {
+                ingredients.push(`${meal[`strIngredient${i}`]}`)
+        } else {
             break;
         }
     }
