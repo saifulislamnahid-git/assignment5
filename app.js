@@ -32,7 +32,7 @@ const displayMeals = mealsItem => {
     } else {
         searchResult.innerText = "";
         mealsElement.innerHTML = mealsItem.map(meal => `
-            <div class="meals">
+            <div  onclick="mealByID('${meal.idMeal}')" class="meals">
                 <img src="${meal.strMealThumb}" alt="${meal.strMeal}" />
                 <div class="meal-info" data-mealID="${meal.idMeal}">
                     <h3>${meal.strMeal}</h3>
@@ -45,35 +45,19 @@ const displayMeals = mealsItem => {
     input.value = '';
 }
 
-// Get Meal ID clicked by Title
-mealsElement.addEventListener('click', e => {
-    const mealInfo = e.path.find(item => {
-        if (item.classList) {
-            return item.classList.contains('meal-info');
-        } else {
-            return false;
-        }
-    })
-
-    if (mealInfo) {
-        const mealID = mealInfo.getAttribute('data-mealID');
-        getMealByID(mealID);
-    }
-})
-
 
 // Fetch Meal By ID
-function getMealByID(mealID) {
+function mealByID(mealID) {
     fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${mealID}`)
         .then(res => res.json())
         .then(data => {
             const meal = data.meals[0];
-            addMealToDOM(meal);
+            singleMeal(meal);
         })
 }
 
-// Add meal to DOM
-const addMealToDOM = meal => {
+// Single Meal
+const singleMeal = meal => {
         const ingredients = [];
         for (let i = 1; i <= 20; i++) {
             if (meal[`strIngredient${i}`]) {
