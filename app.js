@@ -1,11 +1,10 @@
 // Variable Declare
 const input = document.getElementById("input");
-const submit = document.getElementById("submit");
 const mealsElement = document.getElementById('mealsElement');
 const singleElement = document.getElementById("singleElement");
 
 // Submit Button Event Handler
-submit.addEventListener('click', function() {
+const searchText = () => {
     const searchFor = document.getElementById('searchFor');
     const inputValue = input.value;
     if (inputValue == '') {
@@ -19,20 +18,20 @@ submit.addEventListener('click', function() {
 
         fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${inputValue}`)
             .then(res => res.json())
-            .then(data => displayMeals(data))
+            .then(data => displayMeals(data.meals))
     }
-})
+}
 
 
 // Search Result
 const searchResult = document.getElementById("searchResult");
 const displayMeals = mealsItem => {
-    if (mealsItem.meals == null) {
+    if (mealsItem == null) {
         searchResult.innerText = 'There are no search result. Try again';
         mealsElement.innerText = '';
     } else {
         searchResult.innerText = "";
-        mealsElement.innerHTML = mealsItem.meals.map(meal => `
+        mealsElement.innerHTML = mealsItem.map(meal => `
             <div class="meals">
                 <img src="${meal.strMealThumb}" alt="${meal.strMeal}" />
                 <div class="meal-info" data-mealID="${meal.idMeal}">
